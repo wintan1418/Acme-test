@@ -10,10 +10,12 @@ class User < ApplicationRecord
         self.hits_count >= 10000
       end
     
-    def count_hits_in_user_timezone
-        start = Time.now.in_time_zone('Australia/Sydney').beginning_of_month
-        hits.where('created_at > ?', start).count
-    end
+      def count_hits
+        user_time_zone = self.time_zone || 'UTC'  # default to UTC if not set
+        start_of_month_in_user_time_zone = Time.now.in_time_zone(user_time_zone).beginning_of_month
+        self.hits.where('created_at > ?', start_of_month_in_user_time_zone).count
+      end
+      
     
   end
   
