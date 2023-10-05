@@ -21,6 +21,13 @@ Solution:
 
 I have Implemented an optimistic locking or database-level constraints to ensure accurate hit counting.
 Ensuring cache data is up-to-date.
+Time Zone Storage: I added a time_zone column to our User model. This allows us to store each user's specific time zone.
+
+Time Zone Detection with Geocoder: Upon integrating the geocoder gem, I implemented functionality to automatically detect a user's time zone based on their IP address when they sign up or log in. This aids in giving users a more personalized experience, and it ensures accurate quota resets according to their local time.
+
+Devise Controllers Customization: I generated and customized Devise controllers for our User model. The reason behind this was to seamlessly integrate the time zone detection into our sign-up and login processes. Now, whenever a user signs up or logs in, their time zone is automatically updated (if detectable from their IP).
+
+Updating Hit Counts: With the user's time zone data available, I modified the method that counts a user's API hits. Now, the count and quota reset is relative to the beginning of the month in the user's specific time zone, ensuring fairness for all users globally.
 
 #3: Exceeding Monthly API Request Limit
 Problem: Some users are making more requests than their monthly limit.
